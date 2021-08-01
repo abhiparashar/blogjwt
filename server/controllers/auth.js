@@ -3,7 +3,7 @@ const User = require("../models/user");
 const generateToken = require("../util/token")
 
 exports.signup = asyncHandler(async (req, res) => {
-  const { name, email, password, pic } = req.body;
+  const { name, email, password } = req.body;
   const userExists = await User.findOne({ email });
   if (userExists) {
     res.status(400);
@@ -13,14 +13,12 @@ exports.signup = asyncHandler(async (req, res) => {
     name,
     email,
     password,
-    pic,
   });
   if (user) {
     res.status(201).send({
       _id: user._id,
       name: user.name,
       email: user.email,
-      pic: user.pic,
       token:generateToken(user._id)
     });
   } else {
